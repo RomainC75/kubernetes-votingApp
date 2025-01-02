@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dev-env
+  labels:
+    app: myapplication
+    environment: dev
+data:
+  voting-app-node-external-port: "8080"
+  voting-app-node-target-port: "80"
+  voting-app-port: "80"
+  
+

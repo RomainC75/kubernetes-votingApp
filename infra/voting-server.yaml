@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voting-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: voting-server
+  template:
+    metadata:
+      labels:
+        name: voting-server
+    spec:
+      containers:
+      - name: voting-server
+        image: voting-server
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: 600Mi
+            cpu: 1
+          requests:
+            memory: 300Mi
+            cpu: 500m
+        volumeMounts:
+        - mountPath: /go/src/server
+          name: source-code
+        env:
+        - name: voting-app-node-external-port
+          valueFrom:
+            configMapKeyRef:
+              name: dev-env
+              key: voting-app-node-external-port
+        - name: MY_KEY
+          value: "super value"
+      volumes:
+      - name: source-code
+        hostPath:
+          path: /Users/rom/Work/perso/kubernetes/voting-app/voting-server
+          type: Directory
+      - name: config
+        configMap:
+          # Provide the name of the ConfigMap you want to mount.
+          name: dev-env
+          # An array of keys from the ConfigMap to create as files
+          items:
+          - key: "voting-app-node-external-port"
+            path: "voting-app-node-external-port"
+
