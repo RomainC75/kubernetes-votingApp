@@ -9,5 +9,4 @@ data:
   voting-app-node-external-port: "8080"
   voting-app-node-target-port: "80"
   voting-app-port: "80"
-  
 
