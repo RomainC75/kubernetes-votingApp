@@ -27,18 +27,24 @@ spec:
         - mountPath: /go/src/server
           name: source-code
         env:
-        - name: VOTING_APP_NODE_EXTERNAL_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: dev-env
-              key: voting-app-node-external-port
-        - name: MY_KEY
-          value: "super value"
+        - name: DATABASE_URL
+          value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)
+        # secret
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: dev-secret
               key: DB_PASSWORD
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: dev-secret
+              key: DB_USERNAME
+        # every variable at the same time ? 
+        envFrom:
+          - configMapRef:
+              name: dev-env
+
       volumes:
       - name: source-code
         hostPath:

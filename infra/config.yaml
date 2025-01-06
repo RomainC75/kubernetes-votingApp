@@ -9,4 +9,6 @@ data:
   voting-app-node-external-port: "8080"
   voting-app-node-target-port: "80"
   voting-app-port: "80"
-
+  DB_HOST: "postgresql.default.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_NAME: "mydb"
