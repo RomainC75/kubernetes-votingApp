@@ -72,11 +72,21 @@ spec:
                 key: voting-app-node-external-port
           - name: MY_KEY
             value: "super value"
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: dev-secret
+                key: DB_USERNAME
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: dev-secret
-                key: POSTGRES_PASSWORD
+                key: DB_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: dev-env
+                key: DB_NAME
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgresdata

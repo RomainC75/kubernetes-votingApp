@@ -11,4 +11,4 @@ data:
   voting-app-port: "80"
   DB_HOST: "postgresql.default.svc.cluster.local"
   DB_PORT: "5432"
-  DB_NAME: "mydb"
+  DB_NAME: "vote-db"

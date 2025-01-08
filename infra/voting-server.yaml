@@ -16,6 +16,8 @@ spec:
       - name: voting-server
         image: voting-server
         imagePullPolicy: Never
+        # command: ["go"]
+        # args: ["run", "cmd/migrate/main.go"]
         resources:
           limits:
             memory: 600Mi
@@ -27,8 +29,6 @@ spec:
         - mountPath: /go/src/server
           name: source-code
         env:
-        - name: DATABASE_URL
-          value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)
         # secret
         - name: DB_PASSWORD
           valueFrom:
@@ -40,6 +40,8 @@ spec:
             secretKeyRef:
               name: dev-secret
               key: DB_USERNAME
+        - name: DATABASE_URL
+          value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)
         # every variable at the same time ? 
         envFrom:
           - configMapRef:
@@ -58,4 +60,3 @@ spec:
           items:
           - key: "voting-app-node-external-port"
             path: "voting-app-node-external-port"
-
