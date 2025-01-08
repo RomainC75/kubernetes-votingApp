@@ -20,6 +20,11 @@ spec:
         args:
           - |
             echo "=======STARTUP=======" && 
+            pwd &&
+            echo "--ls--"
+            ls -l &&
+            echo "--ls ..--"
+            ls -l .. &&
             migrate --path db/migration --database "postgresql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" --verbose up &&
             air
         resources:
@@ -32,6 +37,8 @@ spec:
         volumeMounts:
         - mountPath: /go/src/server
           name: source-code
+        - mountPath: /go/src/shared
+          name: shared-code
         env:
         # secret
         - name: DB_PASSWORD
@@ -55,6 +62,10 @@ spec:
       - name: source-code
         hostPath:
           path: /Users/rom/Work/perso/kubernetes/voting-app/voting-server
+          type: Directory
+      - name: shared-code
+        hostPath:
+          path: /Users/rom/Work/perso/kubernetes/voting-app/shared
           type: Directory
       - name: config
         configMap:
