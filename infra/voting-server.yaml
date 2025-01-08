@@ -16,8 +16,12 @@ spec:
       - name: voting-server
         image: voting-server
         imagePullPolicy: Never
-        # command: ["go"]
-        # args: ["run", "cmd/migrate/main.go"]
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo "=======STARTUP=======" && 
+            migrate --path db/migration --database "postgresql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" --verbose up &&
+            air
         resources:
           limits:
             memory: 600Mi
