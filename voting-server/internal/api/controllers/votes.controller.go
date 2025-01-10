@@ -12,33 +12,38 @@ import (
 )
 
 type VoteController struct {
-	VoteSrv *services.VoteSrv
+	voteSrv services.VoteSrvI
 	v       *validator.Validate
 }
 
 func NewVoteController() *VoteController {
 	return &VoteController{
-		VoteSrv: &services.VoteSrv{},
+		voteSrv: services.NewVoteSrv(),
 		v:       validator_helper.GetValidate(),
 	}
 }
 
 func (vCtr *VoteController) PostVoteController(w http.ResponseWriter, r *http.Request) {
-	var portVoteBody dtos.VoteDto
+	var newVoteBody dtos.VoteDto
 
-	err := json.NewDecoder(r.Body).Decode(&portVoteBody)
+	err := json.NewDecoder(r.Body).Decode(&newVoteBody)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	err = vCtr.v.Struct(portVoteBody)
+	err = vCtr.v.Struct(newVoteBody)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	res := vCtr.VoteSrv.SetVote(portVoteBody.Content)
+	res, err := vCtr.voteSrv.SetVote(newVoteBody)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	utils.SendJson(w, http.StatusOK,
 		map[string]any{
 			"content": res,

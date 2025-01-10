@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIRECTORY="./db/sqlc"
+DIRECTORY="../shared/postgres/sqlc"
 
 for FILE in "$DIRECTORY"/*; do
     if [ -f "$FILE" ]; then

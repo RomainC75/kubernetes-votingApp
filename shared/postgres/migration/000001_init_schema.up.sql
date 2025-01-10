@@ -1,7 +1,6 @@
-CREATE TABLE users (
+CREATE TABLE votes (
     id BIGSERIAL PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL,
-    password  TEXT NOT NULL,
+    content TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL
 );

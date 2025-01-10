@@ -11,3 +11,6 @@ reload-postgres:
 	kubectl delete -f infra/db.yaml; \
 	rm -rf data/db; \
 	kubectl apply -f infra/db.yaml
+
+sqlc:
+	cd voting-server && sqlc generate && ./comment-cleaner.sh 

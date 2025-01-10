@@ -4,10 +4,9 @@ import (
 	"time"
 )
 
-type User struct {
+type Vote struct {
 	ID        int64     `json:"id"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
+	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
