@@ -20,12 +20,7 @@ spec:
         args:
           - |
             echo "=======STARTUP=======" && 
-            pwd &&
-            echo "--ls--"
-            ls -l &&
-            echo "--ls ..--"
-            ls -l .. &&
-            migrate --path db/migration --database "postgresql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" --verbose up &&
+            migrate --path ../shared/postgres/migration --database "postgresql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" --verbose up &&
             air
         resources:
           limits:
