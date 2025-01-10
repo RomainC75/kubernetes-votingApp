@@ -9,7 +9,6 @@ import (
 	"voting-server/utils"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/sirupsen/logrus"
 )
 
 type VoteController struct {
@@ -35,7 +34,6 @@ func (vCtr *VoteController) PostVoteController(w http.ResponseWriter, r *http.Re
 
 	err = vCtr.v.Struct(portVoteBody)
 	if err != nil {
-		logrus.Warnf("validator error : %s \n", err.Error())
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

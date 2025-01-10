@@ -12,6 +12,7 @@ func ConnectRoutes() *http.ServeMux {
 
 	mux.Handle("/metrics", promhttp.Handler())
 	routes.OpenRoutes(mux)
+	routes.VotesRoutes(mux)
 
 	return mux
 }
