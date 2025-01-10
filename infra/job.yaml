@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: job
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: job
+            image: job
+            imagePullPolicy: IfNotPresent
+            env:
+            # secret
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dev-secret
+                  key: DB_PASSWORD
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: dev-secret
+                  key: DB_USERNAME
+            - name: DATABASE_URL
+              value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)
+            # every variable at the same time ? 
+            envFrom:
+              - configMapRef:
+                  name: dev-env
+          restartPolicy: OnFailure

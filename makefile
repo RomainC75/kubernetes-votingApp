@@ -3,6 +3,9 @@
 build-voting-server: 
 	docker build --progress=plain -t voting-server -f ./voting-server/Dockerfile .
 
+build-job: 
+	docker build --progress=plain -t job -f ./job/Dockerfile .
+
 reload-voting-server:
 	kubectl delete -f infra/voting-server.yaml; \
 	kubectl apply -f infra/voting-server.yaml

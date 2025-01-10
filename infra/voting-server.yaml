@@ -15,7 +15,7 @@ spec:
       containers:
       - name: voting-server
         image: voting-server
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"]
         args:
           - |

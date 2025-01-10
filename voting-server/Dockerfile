@@ -8,7 +8,7 @@ RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate
 
 WORKDIR /go/src/voting-server
 
-COPY go.work /go/src
+COPY custom-workspaces/go.voting-server.work /go/src/go.work
 COPY ./shared /go/src/shared
 COPY ./voting-server .
 RUN ls

@@ -3,5 +3,4 @@ go 1.23.3
 use(
     ./voting-server
     ./shared
-    ./job
 )
