@@ -64,9 +64,7 @@ spec:
           type: Directory
       - name: config
         configMap:
-          # Provide the name of the ConfigMap you want to mount.
           name: dev-env
-          # An array of keys from the ConfigMap to create as files
           items:
           - key: "voting-app-node-external-port"
             path: "voting-app-node-external-port"
