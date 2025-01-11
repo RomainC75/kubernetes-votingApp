@@ -2,9 +2,12 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	redis_client "job/redis"
+	"job/utils"
 	"os"
+	"shared/dtos"
 	db "shared/postgres/sqlc"
 
 	"github.com/sirupsen/logrus"
@@ -32,7 +35,14 @@ func main() {
 
 	fmt.Println("->  ", votes)
 
-	err = rdb.Set(ctx, redisVoteKey, len(votes), 0).Err()
+	votesMap := utils.MapMaker(votes)
+	votesResult := dtos.VotesResultsDto{
+		Result: votesMap,
+	}
+
+	uJson, _ := json.Marshal(votesResult)
+
+	err = rdb.Set(ctx, redisVoteKey, uJson, 0).Err()
 	if err != nil {
 		logrus.Error("error trying to set v in redis : ", err.Error())
 	}
