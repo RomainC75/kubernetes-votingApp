@@ -1,7 +1,14 @@
 package utils
 
-import "strconv"
+import (
+	"encoding/json"
+	"shared/dtos"
+)
 
-func QuantityAnalysor(str string) (int, error) {
-	return strconv.Atoi(str)
+func QuantityAnalysor(str string) (dtos.VotesResultsDto, error) {
+
+	var data dtos.VotesResultsDto
+	err := json.Unmarshal([]byte(str), &data)
+	return data, err
+
 }

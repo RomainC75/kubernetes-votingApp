@@ -18,6 +18,7 @@ func SetRedis() {
 	redisUrl := fmt.Sprintf("%s:%s", redisHost, redisPort)
 	redisPassword := os.Getenv("REDIS_PASSWORD")
 	fmt.Println("-->", redisHost, redisPort, redisPassword)
+
 	rdb = redis.NewClient(&redis.Options{
 		Addr:     redisUrl,
 		Password: redisPassword,
