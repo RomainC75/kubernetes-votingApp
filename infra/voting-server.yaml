@@ -39,12 +39,12 @@ spec:
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: dev-secret
+              name: postgres-secret
               key: DB_PASSWORD
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: dev-secret
+              name: postgres-secret
               key: DB_USERNAME
         - name: DATABASE_URL
           value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)

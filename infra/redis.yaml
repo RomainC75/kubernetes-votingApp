@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:8.0-M02-alpine3.21
+        command: ["/bin/sh", "-c"]
+        args: 
+          - |
+            echo "=======STARTUP=======" &&
+            echo $REDIS_PASSWORD 
+            redis-server --save 60 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+        resources:
+          limits:
+            memory: 600Mi
+            cpu: 1
+          requests:
+            memory: 300Mi
+            cpu: 500m
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: redis-configmap
+          - secretRef:
+              name: redis-secret
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: REDIS_PASSWORD
+    
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-node-srv
+  labels:
+    app: redis-srv
+spec:
+  type: NodePort
+  ports:
+  - targetPort: 6379
+    port: 6379
+    nodePort: 30003
+    protocol: TCP
+  selector:
+    app: redis
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster-srv
+  labels:
+    app: redis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: redis

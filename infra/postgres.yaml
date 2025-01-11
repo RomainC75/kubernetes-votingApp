@@ -63,7 +63,7 @@ spec:
             - configMapRef:
                 name: dev-env
             - secretRef:
-                name: dev-secret
+                name: postgres-secret
           env:
           - name: VOTING_APP_NODE_EXTERNAL_PORT
             valueFrom:
@@ -75,12 +75,12 @@ spec:
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
-                name: dev-secret
+                name: postgres-secret
                 key: DB_USERNAME
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: dev-secret
+                name: postgres-secret
                 key: DB_PASSWORD
           - name: POSTGRES_DB
             valueFrom:
