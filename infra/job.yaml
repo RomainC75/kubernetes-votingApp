@@ -14,20 +14,25 @@ spec:
             imagePullPolicy: IfNotPresent
             env:
             # secret
-            - name: DB_PASSWORD
+            - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: DB_PASSWORD
+                  name: redis-secret
+                  key: REDIS_PASSWORD
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
                   key: DB_USERNAME
-            - name: DATABASE_URL
-              value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
             # every variable at the same time ? 
             envFrom:
+              - configMapRef:
+                  name: redis-configmap
               - configMapRef:
                   name: dev-env
           restartPolicy: OnFailure
