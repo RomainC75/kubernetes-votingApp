@@ -16,6 +16,8 @@ func main() {
 		fmt.Printf("%d : %s\n", index, v)
 	}
 
+	redisVoteKey := os.Getenv("REDIS_VOTE_KEY")
+
 	db.Connect()
 	conn := db.GetConnection()
 	ctx := context.Background()
@@ -30,7 +32,7 @@ func main() {
 
 	fmt.Println("->  ", votes)
 
-	err = rdb.Set(ctx, "votes", len(votes), 0).Err()
+	err = rdb.Set(ctx, redisVoteKey, len(votes), 0).Err()
 	if err != nil {
 		logrus.Error("error trying to set v in redis : ", err.Error())
 	}
