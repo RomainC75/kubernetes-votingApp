@@ -12,3 +12,18 @@ data:
   DB_HOST: "postgres-cluster-srv.default.svc.cluster.local"
   DB_PORT: "5432"
   DB_NAME: "vote-db"
+
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-configmap
+  labels:
+    app: myapplication
+    environment: dev
+data:
+  REDIS_HOST: "redis-cluster-srv.default.svc.cluster.local"
+  REDIS_PORT: "6379"
+  REDIS_VOTE_KEY: "votes"
